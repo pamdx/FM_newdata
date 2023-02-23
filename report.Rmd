@@ -1,0 +1,514 @@
+---
+date: "`r paste('Received on', format(ymd(filter(dates_received, country == i) %>% pull(date)), '%d %B %Y'))`"
+output: html_document
+---
+
+---
+title: `r paste(i, " - FM DATA REPORTED")`
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(dpi = 72, fig.asp = 0.75, fig.width = 12.638, fig.retina = 1, fig.align = "left")
+theme_set(theme_bw()) # set simple theme for charts
+theme_update(text = element_text(size = 15))
+options(knitr.kable.NA = '')
+```
+
+# {.tabset .tabset-pills}
+
+## Aquaculture {.tabset}
+
+### Received
+
+```{r aquaculture_received_fig, echo = FALSE, message = FALSE, warning = FALSE, results='asis'}
+
+if (nrow(filter(filtered_received, `Working domain` == "Aquaculture")) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_received, `Working domain` == "Aquaculture"), country = i, sector =
+  "Aquaculture", year_start = start_year, year_end = end_year, title = "Data reported by the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r aquaculture_received_table, echo = FALSE, message = FALSE, warning = FALSE, results='asis'}
+
+if (nrow(filter(filtered_received, `Working domain` == "Aquaculture")) > 0) {
+  
+  knitr::kable(filter(filtered_received, `Working domain` == "Aquaculture")) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+### Sent
+
+```{r aquaculture_sent_fig, echo = FALSE, message = FALSE, warning = FALSE, results='asis'}
+
+if (nrow(filter(filtered_sent, `Working domain` == "Aquaculture")) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_sent, `Working domain` == "Aquaculture"), country = i, sector = "Aquaculture",
+    year_start = start_year, year_end = end_year, title = "Data sent to the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r aquaculture_sent_table, echo = FALSE, message = FALSE, warning = FALSE, results='asis'}
+
+if (nrow(filter(filtered_sent, `Working domain` == "Aquaculture")) > 0) {
+  
+  knitr::kable(filter(filtered_sent, `Working domain` == "Aquaculture")) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+## Inland Waters Fishing {.tabset}
+
+### Received
+
+```{r inland_received_fig, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_received, `Working domain` == "Inland Waters Fishing")) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_received, `Working domain` == "Inland Waters Fishing"), country = i, sector = "Inland Waters Fishing", year_start = start_year, year_end = end_year, title = "Data reported by the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r inland_received_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_received, `Working domain` == "Inland Waters Fishing")) > 0) {
+  
+  knitr::kable(filter(filtered_received, `Working domain` == "Inland Waters Fishing")) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+### Sent
+
+```{r inland_sent_fig, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_sent, `Working domain` == "Inland Waters Fishing")) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_sent, `Working domain` == "Inland Waters Fishing"), country = i, sector = "Inland Waters Fishing", year_start = start_year, year_end = end_year, title = "Data sent to the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r inland_sent_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_sent, `Working domain` == "Inland Waters Fishing")) > 0) {
+  
+  knitr::kable(filter(filtered_sent, `Working domain` == "Inland Waters Fishing")) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+## Marine Coastal Fishing {.tabset}
+
+### Received
+
+```{r coastal_received_fig, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_received, `Working domain` == "Marine Coastal Fishing")) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_received, `Working domain` == "Marine Coastal Fishing"), country = i, sector = "Marine Coastal Fishing", year_start = start_year, year_end = end_year, title = "Data reported by the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r coastal_received_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_received, `Working domain` == "Marine Coastal Fishing")) > 0) {
+  
+  knitr::kable(filter(filtered_received, `Working domain` == "Marine Coastal Fishing")) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+### Sent
+
+```{r coastal_sent_fig, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_sent, `Working domain` == "Marine Coastal Fishing")) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_sent, `Working domain` == "Marine Coastal Fishing"), country = i, sector = "Marine Coastal Fishing", year_start = start_year, year_end = end_year, title = "Data sent to the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r coastal_sent_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_sent, `Working domain` == "Marine Coastal Fishing")) > 0) {
+  
+  knitr::kable(filter(filtered_sent, `Working domain` == "Marine Coastal Fishing")) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+## Marine Deep-Sea Fishing  {.tabset}
+
+### Received
+
+```{r deepsea_received_fig, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_received, `Working domain` == "Marine Deep-Sea Fishing")) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_received, `Working domain` == "Marine Deep-Sea Fishing"), country = i, sector = "Marine Deep-Sea Fishing", year_start = start_year, year_end = end_year, title = "Data reported by the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r deepsea_received_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_received, `Working domain` == "Marine Deep-Sea Fishing")) > 0) {
+  
+  knitr::kable(filter(filtered_received, `Working domain` == "Marine Deep-Sea Fishing")) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+### Sent
+
+```{r deepsea_sent_fig, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_sent, `Working domain` == "Marine Deep-Sea Fishing")) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_sent, `Working domain` == "Marine Deep-Sea Fishing"), country = i, sector = "Marine Deep-Sea Fishing", year_start = start_year, year_end = end_year, title = "Data sent to the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r deepsea_sent_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_sent, `Working domain` == "Marine Deep-Sea Fishing")) > 0) {
+  
+  knitr::kable(filter(filtered_sent, `Working domain` == "Marine Deep-Sea Fishing")) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+## Marine Fishing, nei {.tabset}
+
+### Received
+
+```{r fishingnei_received_fig, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_received, `Working domain` == "Marine Fishing, nei")) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_received, `Working domain` == "Marine Fishing, nei"), country = i, sector = "Marine Fishing, nei", year_start = start_year, year_end = end_year, title = "Data reported by the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r fishingnei_received_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_received, `Working domain` == "Marine Fishing, nei")) > 0) {
+  
+  knitr::kable(filter(filtered_received, `Working domain` == "Marine Fishing, nei")) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+### Sent
+
+```{r fishingnei_sent_fig, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_sent, `Working domain` == "Marine Fishing, nei")) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_sent, `Working domain` == "Marine Fishing, nei"), country = i, sector = "Marine Fishing, nei", year_start = start_year, year_end = end_year, title = "Data sent to the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r fishingnei_sent_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_sent, `Working domain` == "Marine Fishing, nei")) > 0) {
+  
+  knitr::kable(filter(filtered_sent, `Working domain` == "Marine Fishing, nei")) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+## Marine Fishing (combined) {.tabset}
+
+### Received
+
+```{r marinefishing_received_fig, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_received, `Working domain` %in% c("Marine Coastal Fishing", "Marine Deep-Sea Fishing", "Marine Fishing, nei"))) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_received, `Working domain` %in% c("Marine Coastal Fishing", "Marine Deep-Sea Fishing", "Marine Fishing, nei")), country = i, sector = "Marine Fishing (combined)", year_start = start_year, year_end = end_year, title = "Data reported by the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r marinefishing_received_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_received, `Working domain` %in% c("Marine Coastal Fishing", "Marine Deep-Sea Fishing", "Marine Fishing, nei"))) > 0) {
+  
+  knitr::kable(filter(filtered_received, `Working domain` %in% c("Marine Coastal Fishing", "Marine Deep-Sea Fishing", "Marine Fishing, nei"))) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+### Sent
+
+```{r marinefishing_sent_fig, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_sent, `Working domain` %in% c("Marine Coastal Fishing", "Marine Deep-Sea Fishing", "Marine Fishing, nei"))) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_sent, `Working domain` %in% c("Marine Coastal Fishing", "Marine Deep-Sea Fishing", "Marine Fishing, nei")), country = i, sector = "Marine Fishing (combined)", year_start = start_year, year_end = end_year, title = "Data sent to the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r marinefishing_sent_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_sent, `Working domain` %in% c("Marine Coastal Fishing", "Marine Deep-Sea Fishing", "Marine Fishing, nei"))) > 0) {
+  
+  knitr::kable(filter(filtered_sent, `Working domain` %in% c("Marine Coastal Fishing", "Marine Deep-Sea Fishing", "Marine Fishing, nei"))) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+## Subsistence {.tabset}
+
+### Received
+
+```{r subsistence_received_fig, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_received, `Working domain` == "Subsistence")) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_received, `Working domain` == "Subsistence"), country = i, sector = "Subsistence", year_start = start_year, year_end = end_year, title = "Data reported by the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r subsistence_received_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_received, `Working domain` == "Subsistence")) > 0) {
+  
+  knitr::kable(filter(filtered_received, `Working domain` == "Subsistence")) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+### Sent
+
+```{r subsistence_sent_fig, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_sent, `Working domain` == "Subsistence")) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_sent, `Working domain` == "Subsistence"), country = i, sector = "Subsistence", year_start = start_year, year_end = end_year, title = "Data sent to the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r subsistence_sent_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_sent, `Working domain` == "Subsistence")) > 0) {
+  
+  knitr::kable(filter(filtered_sent, `Working domain` == "Subsistence")) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+## Processing {.tabset}
+
+### Received
+
+```{r processing_received_fig, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_received, `Working domain` == "Processing")) > 0) {
+
+  rainbow_chart(data = filter(filtered_received, `Working domain` == "Processing"), country = i, sector = "Processing", year_start = start_year, year_end = end_year, title = "Data reported by the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r processing_received_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_received, `Working domain` == "Processing")) > 0) {
+  
+  knitr::kable(filter(filtered_received, `Working domain` == "Processing")) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+### Sent
+
+```{r processing_sent_fig, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_sent, `Working domain` == "Processing")) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_sent, `Working domain` == "Processing"), country = i, sector = "Processing", year_start = start_year, year_end = end_year, title = "Data sent to the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r processing_sent_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_sent, `Working domain` == "Processing")) > 0) {
+  
+  knitr::kable(filter(filtered_sent, `Working domain` == "Processing")) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+## Unspecified {.tabset}
+
+### Received
+
+```{r unspecified_received_fig, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_received, `Working domain` == "Unspecified")) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_received, `Working domain` == "Unspecified"), country = i, sector = "Unspecified", year_start = start_year, year_end = end_year, title = "Data reported by the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r unspecified_received_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_received, `Working domain` == "Unspecified")) > 0) {
+  
+  knitr::kable(filter(filtered_received, `Working domain` == "Unspecified")) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+### Sent
+
+```{r unspecified_sent_fig, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_sent, `Working domain` == "Unspecified")) > 0) {
+ 
+  rainbow_chart(data = filter(filtered_sent, `Working domain` == "Unspecified"), country = i, sector = "Unspecified", year_start = start_year, year_end = end_year, title = "Data sent to the country")
+  
+} else {print("No data.")}
+
+```
+
+---
+
+```{r unspecified_sent_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+if (nrow(filter(filtered_sent, `Working domain` == "Unspecified")) > 0) {
+  
+  knitr::kable(filter(filtered_sent, `Working domain` == "Unspecified")) %>%
+    kable_styling(full_width = F)
+  
+} else {print("No data.")}
+
+```
+
+## Comparison {.tabset .active}
+
+### Comparison table
+
+```{r comparison_table, echo = FALSE, results = 'asis', message = FALSE}
+
+# Create comparison table between sent and received data
+
+comparison_output <- suppressMessages(
+      compare_df(
+      df_new = filtered_received, 
+      df_old = filtered_sent, 
+      group_col = c("Country", "Working domain", "Working Status", "Sex", "Year"),
+      stop_on_error = FALSE
+      )
+    )
+
+# Output HTML table
+
+suppressMessages(
+    create_output_table(comparison_output,
+                      output_type = "html",
+                      limit = 3000)
+  )
+
+```
