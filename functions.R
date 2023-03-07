@@ -227,13 +227,13 @@ rainbow_chart <- function(data, country, sector, title, year_start, year_end){
   print(
     ggplot(data, aes(x = Year, y = Value, fill = subseries, alpha = alpha)) +
         geom_bar(stat="identity", colour="white") +
-        labs(title = title, subtitle = paste(country, "|", sector), x = "Year", y = "Employment (people)", caption = "Transparent bars indicate official data or alternative sources. Solid bars indicate estimates.") +
+        labs(title = title, subtitle = paste(country, "|", sector), y = "Employment (people)", caption = "Transparent bars indicate official data or alternative sources. Solid bars indicate estimates.") +
         guides(alpha = "none") +
         scale_alpha_identity() +
         scale_fill_discrete(name = "Subseries") +
         scale_y_continuous(labels = addUnits) + 
         scale_x_continuous(breaks = integer_breaks(), minor_breaks = seq(start_year, end_year, 1)) +
-        theme(aspect.ratio = 3/4) +
+        theme(aspect.ratio = 3/4, axis.title.x = element_blank()) +
         coord_cartesian(xlim = c(year_start, year_end))
   )
   
