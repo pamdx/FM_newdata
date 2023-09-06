@@ -15,27 +15,7 @@ library(groundhog)
 groundhog.library(pkgs, '2022-03-01')
 
 source("functions.R")
-
-## PARAMETERS
-
-path_sent <- "./inputs/sent/"
-path_received <- "./inputs/received/"
-path_comparisons <- "./outputs/comparisons/"
-
-start_year <- 1995
-end_year <- 2021 # MAKE SURE TO UPDATE
-
-data_sheet <- "Sect1 FishStat-FM"
-data_range <- "A3:BE99" # MAKE SURE TO UPDATE
-
-official_flags <- c(NA, "B", "E", "I", "M", "P", "Q", "T") # List of official flags for data validation
-
-country_names <- read_csv("https://raw.githubusercontent.com/openfigis/RefData/gh-pages/country/CL_FI_COUNTRY_M49.csv") %>%
-  select(Name_En) %>%
-  mutate(CountryUpper = toupper(Name_En))
-
-files_sent <- list.files(path = path_sent, pattern = "*.xls*", full.names = FALSE, recursive = FALSE, ignore.case = TRUE) # List sent questionnaires
-files_received <- list.files(path = path_received, pattern = "*.xls*", full.names = FALSE, recursive = FALSE, ignore.case = TRUE) # List received questionnaires
+source("parameters.R")
 
 ## INPUT VALIDATION
 
@@ -115,43 +95,9 @@ for (i in unique(consolidated_received_long$Country)) {
 
 ## EXPORT CONSOLIDATED RECEIVED DATA
 
-consolidated_received_long_names <- consolidated_received_long %>%
-  mutate(Country = gsub("BONAIRE-S.EUSTATIUS-SABA", "BONAIRE/S.EUSTATIUS/SABA", Country)) %>%
-  mutate(Country = gsub("SAINT VINCENT-GRENADINES", "SAINT VINCENT/GRENADINES", Country)) %>%
-  left_join(country_names, by = c("Country" = "CountryUpper")) %>%
-  select(-Country) %>%
-  rename(geographic_area = Name_En, OC3 = `Working domain`, working_time = `Working Status`, sex = Sex, year = Year, value = Value, flag = Flag) %>%
-  mutate(comment = as.character(NA)) %>%
-  mutate(OC2 = case_when(
-    OC3 == "Aquaculture" ~ "Aquaculture",
-    OC3 == "Marine Coastal Fishing" ~ "Marine fishing",
-    OC3 == "Marine Deep-Sea Fishing" ~ "Marine fishing",
-    OC3 == "Marine Fishing, nei" ~ "Marine fishing",
-    OC3 == "Inland Waters Fishing" ~ "Inland fishing",
-    OC3 == "Subsistence" ~ "Subsistence",
-    OC3 == "Processing" ~ "Processing",
-    OC3 == "Unspecified" ~ "Unspecified"
-  )) %>%
-  select(geographic_area, OC2, everything())
+consolidated_received_long_names <- format_export(consolidated_received_long)
 
-consolidated_sent_long_names <- consolidated_sent_long %>%
-  mutate(Country = gsub("BONAIRE-S.EUSTATIUS-SABA", "BONAIRE/S.EUSTATIUS/SABA", Country)) %>%
-  mutate(Country = gsub("SAINT VINCENT-GRENADINES", "SAINT VINCENT/GRENADINES", Country)) %>%
-  left_join(country_names, by = c("Country" = "CountryUpper")) %>%
-  select(-Country) %>%
-  rename(geographic_area = Name_En, OC3 = `Working domain`, working_time = `Working Status`, sex = Sex, year = Year, value = Value, flag = Flag) %>%
-  mutate(comment = as.character(NA)) %>%
-  mutate(OC2 = case_when(
-    OC3 == "Aquaculture" ~ "Aquaculture",
-    OC3 == "Marine Coastal Fishing" ~ "Marine fishing",
-    OC3 == "Marine Deep-Sea Fishing" ~ "Marine fishing",
-    OC3 == "Marine Fishing, nei" ~ "Marine fishing",
-    OC3 == "Inland Waters Fishing" ~ "Inland fishing",
-    OC3 == "Subsistence" ~ "Subsistence",
-    OC3 == "Processing" ~ "Processing",
-    OC3 == "Unspecified" ~ "Unspecified"
-  )) %>%
-  select(geographic_area, OC2, everything())
+consolidated_sent_long_names <- format_export(consolidated_sent_long)
 
 countries_received <- unique(consolidated_received_long_names$geographic_area)
 countries_not_received <- setdiff(consolidated_sent_long_names$geographic_area, consolidated_received_long_names$geographic_area)
@@ -161,6 +107,6 @@ length(countries_not_received)
 
 data_export <- consolidated_received_long_names %>%
   bind_rows(filter(consolidated_sent_long_names, geographic_area %in% countries_not_received)) %>%
-  arrange(geographic_area)
+  arrange(geographic_area) %>%
 
-saveRDS(data_export, "./outputs/FM_DB.rds")
+saveRDS(data_export, paste0(path_export, "FM_DB.rds"))

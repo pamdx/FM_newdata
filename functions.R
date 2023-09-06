@@ -281,3 +281,28 @@ country_mapping_check <- function(consolidated_long, ref_names){
   }
   
 }
+
+# Format long data for export
+
+format_export <- function(data){
+  
+  data %>%
+    mutate(Country = gsub("BONAIRE-S.EUSTATIUS-SABA", "BONAIRE/S.EUSTATIUS/SABA", Country)) %>%
+    mutate(Country = gsub("SAINT VINCENT-GRENADINES", "SAINT VINCENT/GRENADINES", Country)) %>%
+    left_join(country_names, by = c("Country" = "CountryUpper")) %>%
+    select(-Country) %>%
+    rename(geographic_area = Name_En, OC3 = `Working domain`, working_time = `Working Status`, sex = Sex, year = Year, value = Value, flag = Flag) %>%
+    mutate(comment = as.character(NA)) %>%
+    mutate(OC2 = case_when(
+      OC3 == "Aquaculture" ~ "Aquaculture",
+      OC3 == "Marine Coastal Fishing" ~ "Marine fishing",
+      OC3 == "Marine Deep-Sea Fishing" ~ "Marine fishing",
+      OC3 == "Marine Fishing, nei" ~ "Marine fishing",
+      OC3 == "Inland Waters Fishing" ~ "Inland fishing",
+      OC3 == "Subsistence" ~ "Subsistence",
+      OC3 == "Processing" ~ "Processing",
+      OC3 == "Unspecified" ~ "Unspecified"
+    )) %>%
+    select(geographic_area, OC2, everything()) 
+  
+}
