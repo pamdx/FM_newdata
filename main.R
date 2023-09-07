@@ -22,14 +22,14 @@ source(path_functions)
 # Sent data
 
 check_excel(path_sent) # Check that all files are in Excel format
-FM_check_questionnaire_structure(start_year, end_year, files_sent, path_sent, data_range) # Check structure of sent questionnaires
+FM_check_questionnaire_structure(start_year, end_year, files_sent, path_sent, data_sheet, data_range) # Check structure of sent questionnaires
 duplicated_questionnaires(files_sent, path_sent) # Ensure there is only one per country
 
 # Received data
 
 check_excel(path_received) # Check that all files are in Excel format
 FM_questionnaire_match(files_received, files_sent) # Check that received questionnaires have a corresponding sent questionnaire
-FM_check_questionnaire_structure(start_year, end_year, files_received, path_received, data_range) # Check structure of received questionnaires
+FM_check_questionnaire_structure(start_year, end_year, files_received, path_received, data_sheet, data_range) # Check structure of received questionnaires
 duplicated_questionnaires(files_received, path_received) # Check for multiple submissions by single country
 
 ## GENERATE EMPTY CONSOLIDATED TABLES

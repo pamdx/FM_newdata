@@ -1,5 +1,5 @@
 ---
-date: "`r paste('Received on', format(ymd(filter(dates_received, country == i) %>% pull(date)), '%d %B %Y'))`"
+date: "`r paste('Received on', format(ymd_hm(filter(dates_received, country == i) %>% pull(date)), '%d %B %Y'))`"
 output: html_document
 ---
 

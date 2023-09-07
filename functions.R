@@ -113,14 +113,14 @@ FM_questionnaire_match <-  function(received, sent){
 
 # Function to check that the data received is properly structured
 
-FM_check_questionnaire_structure <- function(year_start, year_end, files, directory, range_data){
+FM_check_questionnaire_structure <- function(year_start, year_end, files, directory, sheet_data, range_data){
   
   issues <- c()
   
   for (i in files) {
     
     country <- sub("\\_.*", "", i)
-    data <- suppressMessages(read_excel(enc2native(paste0(directory, i)), sheet = "Sect1 FishStat-FM", range = range_data, col_types = "text"))
+    data <- suppressMessages(read_excel(enc2native(paste0(directory, i)), sheet = sheet_data, range = range_data, col_types = "text"))
     
     if (!(names(data)[1] == "Working domain" | names(data)[1] == "Domaine de travail" | names(data)[1] == "Dominio operativo")) {
       
