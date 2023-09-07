@@ -14,8 +14,8 @@ pkgs <- c("dplyr", "readxl", "readr", "tidyr", "tibble", "ggplot2", "stringr", "
 library(groundhog)
 groundhog.library(pkgs, '2022-03-01')
 
-source(path_functions)
 source("parameters.R")
+source(path_functions)
 
 ## INPUT VALIDATION
 
