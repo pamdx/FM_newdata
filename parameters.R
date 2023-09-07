@@ -5,6 +5,9 @@ path_received <- "./inputs/received/"
 path_comparisons <- "./outputs/comparisons/"
 path_export <- "./outputs/"
 
+path_report <- "report.Rmd"
+path_functions <- "functions.R"
+
 start_year <- 1995
 end_year <- 2021 # MAKE SURE TO UPDATE
 

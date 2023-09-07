@@ -14,7 +14,7 @@ pkgs <- c("dplyr", "readxl", "readr", "tidyr", "tibble", "ggplot2", "stringr", "
 library(groundhog)
 groundhog.library(pkgs, '2022-03-01')
 
-source("functions.R")
+source(path_functions)
 source("parameters.R")
 
 ## INPUT VALIDATION
@@ -89,7 +89,7 @@ for (i in unique(consolidated_received_long$Country)) {
   filtered_received = filter(consolidated_received_long, Country == i)
   filtered_sent = filter(consolidated_sent_long, Country == i)
   
-  rmarkdown::render("report.Rmd", output_file = paste0(path_comparisons, i, "_", start_year,"-", end_year,".html"))
+  rmarkdown::render(report_path, output_file = paste0(path_comparisons, i, "_", start_year,"-", end_year,".html"))
   
 }
 
