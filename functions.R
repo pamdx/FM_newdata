@@ -69,6 +69,7 @@ FM_wide_to_long <- function(year_start, year_end, data){
 
 check_excel <- function(files){
   
+  directory <- dirname(files[1])
   extensions <- excel_format(files)
   wrong_extensions <- files[is.na(extensions)]
   
