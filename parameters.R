@@ -20,5 +20,5 @@ country_names <- read_csv("https://raw.githubusercontent.com/openfigis/RefData/g
   select(Name_En) %>%
   mutate(CountryUpper = toupper(Name_En))
 
-files_sent <- list.files(path = path_sent, pattern = "*.xls*", full.names = FALSE, recursive = FALSE, ignore.case = TRUE) # List sent questionnaires
-files_received <- list.files(path = path_received, pattern = "*.xls*", full.names = FALSE, recursive = FALSE, ignore.case = TRUE) # List received questionnaires
+files_sent <- list.files(path = path_sent, full.names = FALSE, recursive = FALSE, ignore.case = TRUE) # List sent questionnaires
+files_received <- list.files(path = path_received, full.names = FALSE, recursive = FALSE, ignore.case = TRUE) # List received questionnaires

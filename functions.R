@@ -67,9 +67,8 @@ FM_wide_to_long <- function(year_start, year_end, data){
 
 # Function to check that files are in Excel format
 
-check_excel <- function(directory){
+check_excel <- function(files){
   
-  files <- list.files(path = directory, full.names = FALSE, recursive = FALSE, ignore.case = TRUE, include.dirs = FALSE)
   extensions <- excel_format(files)
   wrong_extensions <- files[is.na(extensions)]
   
