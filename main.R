@@ -6,28 +6,26 @@
 # File names must start with the official country name before a "_" (underscore).
 # All received questionnaires must be standardized (i.e. the data must have the same structure as the sent questionnaires).
 
-rm(list = ls()) # Clear environment
-
 pkgs <- c("dplyr", "readxl", "readr", "tidyr", "tibble", "ggplot2", "stringr", "lubridate", "compareDF", "tools", "rmarkdown", "kableExtra")
 lapply(pkgs, require, character.only = TRUE)
 
 # library(groundhog)
 # groundhog.library(pkgs, '2022-03-01')
 
-source("parameters.R")
+source("parameters_newdata.R")
 source(path_functions)
 
 ## INPUT VALIDATION
 
 # Sent data
 
-check_excel(files_sent) # Check that all files are in Excel format
+check_excel(files_sent, path_sent) # Check that all files are in Excel format
 FM_check_questionnaire_structure(start_year, end_year, files_sent, path_sent, data_sheet, data_range) # Check structure of sent questionnaires
 duplicated_questionnaires(files_sent, path_sent) # Ensure there is only one per country
 
 # Received data
 
-check_excel(files_received) # Check that all files are in Excel format
+check_excel(files_received, path_received) # Check that all files are in Excel format
 FM_questionnaire_match(files_received, files_sent) # Check that received questionnaires have a corresponding sent questionnaire
 FM_check_questionnaire_structure(start_year, end_year, files_received, path_received, data_sheet, data_range) # Check structure of received questionnaires
 duplicated_questionnaires(files_received, path_received) # Check for multiple submissions by single country
@@ -89,7 +87,7 @@ for (i in unique(consolidated_received_long$Country)) {
   filtered_received = filter(consolidated_received_long, Country == i)
   filtered_sent = filter(consolidated_sent_long, Country == i)
   
-  rmarkdown::render(path_report, output_file = paste0(i, "_", start_year,"-", end_year,".html"), output_dir = path_comparisons)
+  rmarkdown::render(path_report_newdata, output_file = paste0(i, "_", start_year,"-", end_year,".html"), output_dir = path_comparisons)
   
 }
 

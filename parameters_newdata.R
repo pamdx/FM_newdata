@@ -5,7 +5,7 @@ path_received <- "./inputs/received/"
 path_comparisons <- "./outputs/comparisons/"
 path_export <- "./outputs/"
 
-path_report <- "report.Rmd"
+path_report_newdata <- "report_newdata.Rmd"
 path_functions <- "functions.R"
 
 start_year <- 1995
