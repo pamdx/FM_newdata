@@ -5,16 +5,16 @@ path_received <- "./inputs/received/"
 path_comparisons <- "./outputs/comparisons/"
 path_export <- "./outputs/"
 
-path_report_newdata <- "report_newdata.Rmd"
-path_functions <- "functions.R"
+path_report_newdata <- "./modules/report_FM_newdata.Rmd"
+path_functions <- "./modules/functions_FM_newdata.R"
 
 start_year <- 1995
-end_year <- 2021 # MAKE SURE TO UPDATE
+end_year <- 2022 # MAKE SURE TO UPDATE
 
-data_sheet <- "Sect1 FishStat-FM"
-data_range <- "A3:BE99" # MAKE SURE TO UPDATE
+data_sheet <- 5
+data_range <- "A3:BG99" # MAKE SURE TO UPDATE
 
-official_flags <- c(NA, "B", "E", "I", "M", "P", "Q", "T") # List of official flags for data validation
+official_flags <- c(NA, "B", "E", "I", "M", "P", "Q", "T", "K") # List of official flags for data validation
 
 country_names <- read_csv("https://raw.githubusercontent.com/openfigis/RefData/gh-pages/country/CL_FI_COUNTRY_M49.csv") %>%
   select(Name_En) %>%

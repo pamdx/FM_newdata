@@ -12,7 +12,7 @@ lapply(pkgs, require, character.only = TRUE)
 # library(groundhog)
 # groundhog.library(pkgs, '2022-03-01')
 
-source("parameters_newdata.R")
+source("./parameters/parameters_FM_newdata.R")
 source(path_functions)
 
 ## INPUT VALIDATION
@@ -50,9 +50,9 @@ consolidated_received <- consolidated_sent
 # Sent
 
 for (i in files_sent) {
-  data <- FM_questionnaire_import(path_sent, i, data_sheet, data_range, names(consolidated_sent))
+  data_questionnaire_sent <- FM_questionnaire_import(path_sent, i, data_sheet, data_range, names(consolidated_sent))
   consolidated_sent <- consolidated_sent %>%
-    add_row(data)
+    add_row(data_questionnaire_sent)
 }
 
 consolidated_sent_long <- FM_wide_to_long(start_year, end_year, consolidated_sent) %>%
@@ -65,9 +65,9 @@ dates_received <- tibble(country = character(), date = character())
 for (i in files_received) {
   dates_received <- dates_received %>%
     bind_rows(c(country = toupper(sub("\\_.*", "", i)), date = str_split(i, "_")[[1]][4]))
-  data <- FM_questionnaire_import(path_received, i, data_sheet, data_range, names(consolidated_received))
+  data_questionnaire_received <- FM_questionnaire_import(path_received, i, data_sheet, data_range, names(consolidated_received))
   consolidated_received <- consolidated_received %>%
-    add_row(data)
+    add_row(data_questionnaire_received)
 }
 
 consolidated_received_long <- FM_wide_to_long(start_year, end_year, consolidated_received) %>%
@@ -88,7 +88,7 @@ for (i in unique(consolidated_received_long$Country)) {
   filtered_sent = filter(consolidated_sent_long, Country == i)
   
   rmarkdown::render(path_report_newdata, output_file = paste0(i, "_", start_year,"-", end_year,".html"), output_dir = path_comparisons)
-  
+   
 }
 
 ## EXPORT CONSOLIDATED RECEIVED DATA
@@ -103,8 +103,8 @@ countries_not_received <- setdiff(consolidated_sent_long_names$geographic_area, 
 length(countries_received)
 length(countries_not_received)
 
-data_export <- consolidated_received_long_names %>%
+newdata_export <- consolidated_received_long_names %>%
   bind_rows(filter(consolidated_sent_long_names, geographic_area %in% countries_not_received)) %>%
   arrange(geographic_area)
 
-saveRDS(data_export, paste0(path_export, "FM_DB.rds"))
+saveRDS(newdata_export, paste0(path_export, "FM_DB.rds"))

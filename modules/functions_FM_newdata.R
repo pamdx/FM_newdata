@@ -220,13 +220,13 @@ rainbow_chart <- function(data, country, sector, title, year_start, year_end){
                               paste(working_domain_short, `Working Status`, Sex, sep = " | "),
                               paste(`Working Status`, Sex, sep = " | ")
     )) %>%
-    mutate(alpha = case_when(Flag == "E"  ~ 1,
-                             is.na(Flag) | Flag == "B" | Flag == "T" | Flag == "R" | Flag == "Q" | Flag == "I" | Flag == "P"  ~ 0.35))
+    mutate(alpha = case_when(Flag == "E"  ~ 0.35,
+                             Flag %in% official_flags  ~ 1))
   
   print(
     ggplot(data, aes(x = Year, y = Value, fill = subseries, alpha = alpha)) +
         geom_bar(stat="identity", colour="white") +
-        labs(title = title, subtitle = paste(country, "|", sector), y = "Employment (people)", caption = "Transparent bars indicate official data or alternative sources. Solid bars indicate estimates.") +
+        labs(title = title, subtitle = paste(country, "|", sector), y = "Employment (people)", caption = "Solid bars indicate official data or alternative sources. Transparent bars indicate estimates.") +
         guides(alpha = "none") +
         scale_alpha_identity() +
         scale_fill_discrete(name = "Subseries") +
