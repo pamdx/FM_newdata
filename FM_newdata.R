@@ -87,7 +87,7 @@ for (i in unique(consolidated_received_long$Country)) {
   filtered_received = filter(consolidated_received_long, Country == i)
   filtered_sent = filter(consolidated_sent_long, Country == i)
   
-  rmarkdown::render(path_report_newdata, output_file = paste0(i, "_", start_year,"-", end_year,".html"), output_dir = path_comparisons)
+  rmarkdown::render(path_report_newdata, output_file = paste0(dates_received$date[dates_received$country == i], "_", i, "_", start_year,"-", end_year,".html"), output_dir = path_comparisons)
    
 }
 
