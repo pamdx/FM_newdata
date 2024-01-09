@@ -268,8 +268,27 @@ country_mapping_check <- function(consolidated_long, ref_names){
   
   data <- consolidated_long %>%
     mutate(Country = toupper(Country)) %>%
-    mutate(Country = gsub("BONAIRE-S.EUSTATIUS-SABA", "BONAIRE/S.EUSTATIUS/SABA", Country)) %>%
-    mutate(Country = gsub("SAINT VINCENT-GRENADINES", "SAINT VINCENT/GRENADINES", Country)) %>%
+    mutate(Country = gsub("BOLIVIA \\(PLURINAT\\.STATE\\)", "BOLIVIA (PLURINATIONAL STATE OF)", Country)) %>%
+    mutate(Country = gsub("BONAIRE\\-S.EUSTATIUS\\-SABA", "BONAIRE, SINT EUSTATIUS AND SABA", Country)) %>%
+    mutate(Country = gsub("CONGO, DEM. REP. OF THE",  "DEMOCRATIC REPUBLIC OF THE CONGO", Country)) %>%
+    mutate(Country = gsub("FALKLAND IS\\.\\(MALVINAS\\)",   "FALKLAND ISLANDS (MALVINAS)", Country)) %>%
+    mutate(Country = gsub("FRENCH SOUTHERN TERR",     "FRENCH SOUTHERN TERRITORIES", Country)) %>%
+    mutate(Country = gsub("IRAN \\(ISLAMIC REP\\. OF\\)",   "IRAN (ISLAMIC REPUBLIC OF)", Country)) %>%
+    mutate(Country = gsub("KOREA REPUBLIC OF",        "REPUBLIC OF KOREA", Country)) %>%
+    mutate(Country = gsub("KOREA, DEM\\. PEOPLE\\'S REP", "DEMOCRATIC PEOPLE'S REPUBLIC OF KOREA", Country)) %>%
+    mutate(Country = gsub("LAO PEOPLE\\'S DEM\\. REP\\.",   "LAO PEOPLE'S DEMOCRATIC REPUBLIC", Country)) %>%
+    mutate(Country = gsub("MICRONESIA \\(FED\\. STATES\\)", "MICRONESIA (FEDERATED STATES OF)", Country)) %>%
+    mutate(Country = gsub("MOLDOVA\\, REPUBLIC OF",     "REPUBLIC OF MOLDOVA", Country)) %>%
+    mutate(Country = gsub("NORTHERN MARIANA IS\\.",     "NORTHERN MARIANA ISLANDS", Country)) %>%
+    mutate(Country = gsub("SAINT HELENA\\-ASC\\.\\-TRIST\\.", "ASCENSION, SAINT HELENA AND TRISTAN DA CUNHA", Country)) %>%
+    mutate(Country = gsub("SAINT VINCENT\\-GRENADINES", "SAINT VINCENT AND THE GRENADINES", Country)) %>%
+    mutate(Country = gsub("ST\\. PIERRE AND MIQUELON",  "SAINT PIERRE AND MIQUELON", Country)) %>%
+    mutate(Country = gsub("TANZANIA\\, UNITED REP\\. OF", "UNITED REPUBLIC OF TANZANIA", Country)) %>%
+    mutate(Country = gsub("TURKS AND CAICOS IS\\.",     "TURKS AND CAICOS ISLANDS", Country)) %>%
+    mutate(Country = gsub("UNITED KINGDOM",           "UNITED KINGDOM OF GREAT BRITAIN AND NORTHERN IRELAND", Country)) %>%
+    mutate(Country = gsub("US VIRGIN ISLANDS",        "UNITED STATES VIRGIN ISLANDS", Country)) %>%
+    mutate(Country = gsub("VENEZUELA \\(BOLIV REP OF\\)", "VENEZUELA (BOLIVARIAN REPUBLIC OF)", Country)) %>%
+    mutate(Country = gsub("WALLIS AND FUTUNA IS\\.",    "WALLIS AND FUTUNA ISLANDS", Country)) %>%
     left_join(ref_names, by = c("Country" = "CountryUpper"))
   
   if (nrow(data[is.na(data$Name_En),]) > 0) {
@@ -286,8 +305,27 @@ country_mapping_check <- function(consolidated_long, ref_names){
 format_export <- function(data){
   
   data %>%
-    mutate(Country = gsub("BONAIRE-S.EUSTATIUS-SABA", "BONAIRE/S.EUSTATIUS/SABA", Country)) %>%
-    mutate(Country = gsub("SAINT VINCENT-GRENADINES", "SAINT VINCENT/GRENADINES", Country)) %>%
+    mutate(Country = gsub("BOLIVIA \\(PLURINAT\\.STATE\\)", "BOLIVIA (PLURINATIONAL STATE OF)", Country)) %>%
+    mutate(Country = gsub("BONAIRE\\-S.EUSTATIUS\\-SABA", "BONAIRE, SINT EUSTATIUS AND SABA", Country)) %>%
+    mutate(Country = gsub("CONGO, DEM. REP. OF THE",  "DEMOCRATIC REPUBLIC OF THE CONGO", Country)) %>%
+    mutate(Country = gsub("FALKLAND IS\\.\\(MALVINAS\\)",   "FALKLAND ISLANDS (MALVINAS)", Country)) %>%
+    mutate(Country = gsub("FRENCH SOUTHERN TERR",     "FRENCH SOUTHERN TERRITORIES", Country)) %>%
+    mutate(Country = gsub("IRAN \\(ISLAMIC REP\\. OF\\)",   "IRAN (ISLAMIC REPUBLIC OF)", Country)) %>%
+    mutate(Country = gsub("KOREA REPUBLIC OF",        "REPUBLIC OF KOREA", Country)) %>%
+    mutate(Country = gsub("KOREA, DEM\\. PEOPLE\\'S REP", "DEMOCRATIC PEOPLE'S REPUBLIC OF KOREA", Country)) %>%
+    mutate(Country = gsub("LAO PEOPLE\\'S DEM\\. REP\\.",   "LAO PEOPLE'S DEMOCRATIC REPUBLIC", Country)) %>%
+    mutate(Country = gsub("MICRONESIA \\(FED\\. STATES\\)", "MICRONESIA (FEDERATED STATES OF)", Country)) %>%
+    mutate(Country = gsub("MOLDOVA\\, REPUBLIC OF",     "REPUBLIC OF MOLDOVA", Country)) %>%
+    mutate(Country = gsub("NORTHERN MARIANA IS\\.",     "NORTHERN MARIANA ISLANDS", Country)) %>%
+    mutate(Country = gsub("SAINT HELENA\\-ASC\\.\\-TRIST\\.", "ASCENSION, SAINT HELENA AND TRISTAN DA CUNHA", Country)) %>%
+    mutate(Country = gsub("SAINT VINCENT\\-GRENADINES", "SAINT VINCENT AND THE GRENADINES", Country)) %>%
+    mutate(Country = gsub("ST\\. PIERRE AND MIQUELON",  "SAINT PIERRE AND MIQUELON", Country)) %>%
+    mutate(Country = gsub("TANZANIA\\, UNITED REP\\. OF", "UNITED REPUBLIC OF TANZANIA", Country)) %>%
+    mutate(Country = gsub("TURKS AND CAICOS IS\\.",     "TURKS AND CAICOS ISLANDS", Country)) %>%
+    mutate(Country = gsub("UNITED KINGDOM",           "UNITED KINGDOM OF GREAT BRITAIN AND NORTHERN IRELAND", Country)) %>%
+    mutate(Country = gsub("US VIRGIN ISLANDS",        "UNITED STATES VIRGIN ISLANDS", Country)) %>%
+    mutate(Country = gsub("VENEZUELA \\(BOLIV REP OF\\)", "VENEZUELA (BOLIVARIAN REPUBLIC OF)", Country)) %>%
+    mutate(Country = gsub("WALLIS AND FUTUNA IS\\.",    "WALLIS AND FUTUNA ISLANDS", Country)) %>%
     left_join(country_names, by = c("Country" = "CountryUpper")) %>%
     select(-Country) %>%
     rename(geographic_area = Name_En, OC3 = `Working domain`, working_time = `Working Status`, sex = Sex, year = Year, value = Value, flag = Flag) %>%
