@@ -157,9 +157,9 @@ duplicated_questionnaires <- function(files, directory){
   duplicated_questionnaires <- country_list[duplicated(country_list)] 
   
   if (length(duplicated_questionnaires) > 0) {
-   
+    
     stop(paste("Countries that submitted multiple questionnaires:", paste(duplicated_questionnaires, collapse = ", ")))
-     
+    
   } else{message("No duplicated questionnaires detected in ", directory, ".")}
   
 }
@@ -183,8 +183,8 @@ FM_check_blank <- function(received, sent){
   if (length(blank_questionnaires) > 0) {
     
     stop(paste("Countries that returned blank questionnaires: ", paste(blank_questionnaires, collapse = ", ")))
-  
-    } else{message("No country returned a blank questionnaire.")}
+    
+  } else{message("No country returned a blank questionnaire.")}
   
   
 }
@@ -243,18 +243,18 @@ rainbow_chart <- function(data, country, sector, title, year_start, year_end){
   
   print(
     ggplot(data, aes(x = Year, y = Value, fill = subseries, alpha = alpha)) +
-        geom_bar(stat="identity", colour="white") +
-        labs(title = title, 
-             subtitle = paste(country, "|", sector), y = "Employment (people)", 
-             caption = paste("Solid bars indicate official data or alternative sources. Transparent bars indicate estimates.<br>
+      geom_bar(stat="identity", colour="white") +
+      labs(title = title, 
+           subtitle = paste(country, "|", sector), y = "Employment (people)", 
+           caption = paste("Solid bars indicate official data or alternative sources. Transparent bars indicate estimates.<br>
                         Share of estimated employment:", "<span style = 'color: ", color_share_estimated, ";'>", sprintf('%0.1f%%', share_estimated * 100), "</span>")) +
-        guides(alpha = "none") +
-        scale_alpha_identity() +
-        scale_fill_discrete(name = "Subseries") +
-        scale_y_continuous(labels = addUnits) + 
-        scale_x_continuous(breaks = integer_breaks(), minor_breaks = seq(start_year, end_year, 1)) +
-        theme(aspect.ratio = 3/4, axis.title.x = element_blank(), plot.caption = element_markdown()) +
-        coord_cartesian(xlim = c(year_start, year_end))
+      guides(alpha = "none") +
+      scale_alpha_identity() +
+      scale_fill_discrete(name = "Subseries") +
+      scale_y_continuous(labels = addUnits) + 
+      scale_x_continuous(breaks = integer_breaks(), minor_breaks = seq(start_year, end_year, 1)) +
+      theme(aspect.ratio = 3/4, axis.title.x = element_blank(), plot.caption = element_markdown()) +
+      coord_cartesian(xlim = c(year_start, year_end))
   )
   
 }
@@ -289,7 +289,7 @@ country_mapping_check <- function(consolidated_long, ref_names){
   
   data <- consolidated_long %>%
     mutate(Country = trimws(toupper(Country)))  %>%
-  # mutate(Country = gsub("BOLIVIA \\(PLURINAT\\.STATE\\)", "BOLIVIA (PLURINATIONAL STATE OF)", Country)) %>%
+    # mutate(Country = gsub("BOLIVIA \\(PLURINAT\\.STATE\\)", "BOLIVIA (PLURINATIONAL STATE OF)", Country)) %>%
     left_join(ref_names, by = c("Country" = "CountryUpper"))
   
   if (nrow(data[is.na(data$Name_En),]) > 0) {
@@ -307,7 +307,7 @@ format_export <- function(data){
   
   data %>%
     mutate(Country = trimws(toupper(Country))) %>%
-  # mutate(Country = gsub("BOLIVIA \\(PLURINAT\\.STATE\\)", "BOLIVIA (PLURINATIONAL STATE OF)", Country)) %>%
+    # mutate(Country = gsub("BOLIVIA \\(PLURINAT\\.STATE\\)", "BOLIVIA (PLURINATIONAL STATE OF)", Country)) %>%
     left_join(country_names, by = c("Country" = "CountryUpper")) %>%
     select(-Country) %>%
     rename(geographic_area = Name_En, OC3 = `Working domain`, working_time = `Working Status`, sex = Sex, year = Year, value = Value, flag = Flag) %>%
