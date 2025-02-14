@@ -209,6 +209,8 @@ FM_check_flags <- function(data, ref_flags){
 
 rainbow_chart <- function(data, country, sector, title, year_start, year_end){
   
+  # Clean and prepare the data
+  
   data <- data  %>%
     mutate(working_domain_short = case_when(
       `Working domain` == "Marine Coastal Fishing" ~ "Coastal",
@@ -220,19 +222,38 @@ rainbow_chart <- function(data, country, sector, title, year_start, year_end){
                               paste(working_domain_short, `Working Status`, Sex, sep = " | "),
                               paste(`Working Status`, Sex, sep = " | ")
     )) %>%
-    mutate(alpha = case_when(Flag == "E"  ~ 0.35,
+    mutate(alpha = case_when(Flag == "I"  ~ 0.35,
                              Flag %in% official_flags  ~ 1))
+  
+  # Define share of estimated employment and associated color
+  
+  sum_estimated <- data %>%
+    filter(Flag == "I") %>%
+    summarise(Value = sum(Value, na.rm = TRUE))
+  
+  sum_total <- data %>%
+    summarise(Value = sum(Value, na.rm = TRUE))
+  
+  share_estimated <- sum_estimated/sum_total
+  
+  color_palette <- colorRamp(c("blue", "orange", "red"))
+  color_share_estimated <- rgb(color_palette(share_estimated)/255)
+  
+  # Generate plot
   
   print(
     ggplot(data, aes(x = Year, y = Value, fill = subseries, alpha = alpha)) +
         geom_bar(stat="identity", colour="white") +
-        labs(title = title, subtitle = paste(country, "|", sector), y = "Employment (people)", caption = "Solid bars indicate official data or alternative sources. Transparent bars indicate estimates.") +
+        labs(title = title, 
+             subtitle = paste(country, "|", sector), y = "Employment (people)", 
+             caption = paste("Solid bars indicate official data or alternative sources. Transparent bars indicate estimates.<br>
+                        Share of estimated employment:", "<span style = 'color: ", color_share_estimated, ";'>", sprintf('%0.1f%%', share_estimated * 100), "</span>")) +
         guides(alpha = "none") +
         scale_alpha_identity() +
         scale_fill_discrete(name = "Subseries") +
         scale_y_continuous(labels = addUnits) + 
         scale_x_continuous(breaks = integer_breaks(), minor_breaks = seq(start_year, end_year, 1)) +
-        theme(aspect.ratio = 3/4, axis.title.x = element_blank()) +
+        theme(aspect.ratio = 3/4, axis.title.x = element_blank(), plot.caption = element_markdown()) +
         coord_cartesian(xlim = c(year_start, year_end))
   )
   
@@ -267,9 +288,8 @@ integer_breaks <- function(n = 5, ...) {
 country_mapping_check <- function(consolidated_long, ref_names){
   
   data <- consolidated_long %>%
-    mutate(Country = toupper(Country)) %>%
-    mutate(Country = gsub("BONAIRE-S.EUSTATIUS-SABA", "BONAIRE/S.EUSTATIUS/SABA", Country)) %>%
-    mutate(Country = gsub("SAINT VINCENT-GRENADINES", "SAINT VINCENT/GRENADINES", Country)) %>%
+    mutate(Country = trimws(toupper(Country)))  %>%
+  # mutate(Country = gsub("BOLIVIA \\(PLURINAT\\.STATE\\)", "BOLIVIA (PLURINATIONAL STATE OF)", Country)) %>%
     left_join(ref_names, by = c("Country" = "CountryUpper"))
   
   if (nrow(data[is.na(data$Name_En),]) > 0) {
@@ -286,8 +306,8 @@ country_mapping_check <- function(consolidated_long, ref_names){
 format_export <- function(data){
   
   data %>%
-    mutate(Country = gsub("BONAIRE-S.EUSTATIUS-SABA", "BONAIRE/S.EUSTATIUS/SABA", Country)) %>%
-    mutate(Country = gsub("SAINT VINCENT-GRENADINES", "SAINT VINCENT/GRENADINES", Country)) %>%
+    mutate(Country = trimws(toupper(Country))) %>%
+  # mutate(Country = gsub("BOLIVIA \\(PLURINAT\\.STATE\\)", "BOLIVIA (PLURINATIONAL STATE OF)", Country)) %>%
     left_join(country_names, by = c("Country" = "CountryUpper")) %>%
     select(-Country) %>%
     rename(geographic_area = Name_En, OC3 = `Working domain`, working_time = `Working Status`, sex = Sex, year = Year, value = Value, flag = Flag) %>%

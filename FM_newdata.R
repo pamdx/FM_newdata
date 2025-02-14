@@ -6,7 +6,9 @@
 # File names must start with the official country name before a "_" (underscore).
 # All received questionnaires must be standardized (i.e. the data must have the same structure as the sent questionnaires).
 
-pkgs <- c("dplyr", "readxl", "readr", "tidyr", "tibble", "ggplot2", "stringr", "lubridate", "compareDF", "tools", "rmarkdown", "kableExtra")
+rm(list=ls()) # clear R environment
+
+pkgs <- c("dplyr", "readxl", "readr", "tidyr", "tibble", "ggplot2", "ggtext", "stringr", "lubridate", "compareDF", "tools", "rmarkdown", "kableExtra")
 lapply(pkgs, require, character.only = TRUE)
 
 # library(groundhog)
@@ -17,46 +19,33 @@ source(path_functions)
 
 ## INPUT VALIDATION
 
-# Sent data
-
-check_excel(files_sent, path_sent) # Check that all files are in Excel format
-FM_check_questionnaire_structure(start_year, end_year, files_sent, path_sent, data_sheet, data_range) # Check structure of sent questionnaires
-duplicated_questionnaires(files_sent, path_sent) # Ensure there is only one per country
-
 # Received data
 
 check_excel(files_received, path_received) # Check that all files are in Excel format
 FM_questionnaire_match(files_received, files_sent) # Check that received questionnaires have a corresponding sent questionnaire
-FM_check_questionnaire_structure(start_year, end_year, files_received, path_received, data_sheet, data_range) # Check structure of received questionnaires
 duplicated_questionnaires(files_received, path_received) # Check for multiple submissions by single country
+# FM_check_questionnaire_structure(start_year, end_year, files_received, path_received, data_sheet, data_range) # Check structure of received questionnaires
+
+## CREATE OR CALL IN SENT DATA
+
+# source("./modules/sent_compile.R")
+consolidated_sent_long <- readRDS("./inputs/consolidated_sent_long.RDS")
 
 ## GENERATE EMPTY CONSOLIDATED TABLES
 
-consolidated_sent <- tibble(
+consolidated_received <- tibble(
   Country = character(), 
   `Working domain` = character(), 
   `Working Status` = character(), 
   Sex = character())
 
 for (i in start_year:end_year) {
-  consolidated_sent[as.character(i)] <- ""
-  consolidated_sent[paste0(i, "E")] <- ""
+  consolidated_received[as.character(i)] <- ""
+  consolidated_received[paste0(i, "E")] <- ""
 }
 
-consolidated_received <- consolidated_sent
 
 ## CONSOLIDATE QUESTIONNAIRES
-
-# Sent
-
-for (i in files_sent) {
-  data_questionnaire_sent <- FM_questionnaire_import(path_sent, i, data_sheet, data_range, names(consolidated_sent))
-  consolidated_sent <- consolidated_sent %>%
-    add_row(data_questionnaire_sent)
-}
-
-consolidated_sent_long <- FM_wide_to_long(start_year, end_year, consolidated_sent) %>%
-  arrange(Country, `Working domain`, Year, `Working Status`, Sex)
 
 # Received
 
@@ -82,17 +71,16 @@ country_mapping_check(consolidated_sent_long, country_names) # Check validity of
 
 ## COMPARE RECEIVED VS SENT DATA
 
-for (i in unique(consolidated_received_long$Country)) {
-  
-  filtered_received = filter(consolidated_received_long, Country == i)
-  filtered_sent = filter(consolidated_sent_long, Country == i)
-  
-  rmarkdown::render(path_report_newdata, output_file = paste0(dates_received$date[dates_received$country == i], "_", i, "_", start_year,"-", end_year,".html"), output_dir = path_comparisons)
-   
-}
+ for (i in unique(consolidated_received_long$Country)) {
+
+   filtered_received = filter(consolidated_received_long, Country == i)
+   filtered_sent = filter(consolidated_sent_long, Country == i)
+
+   rmarkdown::render(path_report_newdata, output_file = paste0(i, "_", start_year,"-",  end_year, "_", dates_received$date[dates_received$country == i], ".html"), output_dir = path_comparisons)
+
+  }
 
 ## EXPORT CONSOLIDATED RECEIVED DATA
-
 consolidated_received_long_names <- format_export(consolidated_received_long)
 
 consolidated_sent_long_names <- format_export(consolidated_sent_long)

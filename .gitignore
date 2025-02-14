@@ -2,3 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+inputs/sent/*
+inputs/received/*
+outputs/comparisons/*
+outputs/database/*
